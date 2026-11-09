@@ -75,12 +75,6 @@ static void update_printer_data_stats(lv_event_t * e){
     lv_label_set_text(label, buff);
 }
 
-static void update_printer_data_percentage(lv_event_t * e){
-    lv_obj_t * label = lv_event_get_target(e);
-    char percentage_buffer[12];
-    sprintf(percentage_buffer, "%.2f%%", get_current_printer_data()->print_progress * 100);
-    lv_label_set_text(label, percentage_buffer);
-}
 
 static void btn_click_stop(lv_event_t * e){
     current_printer_execute_feature(PrinterFeatures::PrinterFeatureStop);
