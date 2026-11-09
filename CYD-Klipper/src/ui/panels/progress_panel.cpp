@@ -137,11 +137,41 @@ void progress_panel_init(lv_obj_t* panel){
     else lv_label_set_long_mode(label, LV_LABEL_LONG_SCROLL_CIRCULAR);
     lv_obj_set_width(label, panel_width);
     
-    // Progress Bar
-    lv_obj_t * bar = lv_bar_create(center_panel);
-    lv_obj_set_size(bar, panel_width, CYD_SCREEN_MIN_BUTTON_HEIGHT_PX * 0.75f);
-    lv_obj_add_event_cb(bar, progress_bar_update, LV_EVENT_MSG_RECEIVED, NULL);
-    lv_msg_subsribe_obj(DATA_PRINTER_DATA, bar, NULL);
+// Circular Progress
+
+lv_obj_t * ring_panel = lv_create_empty_panel(center_panel);
+lv_obj_set_size(ring_panel, panel_width, 170);
+lv_obj_clear_flag(ring_panel, LV_OBJ_FLAG_SCROLLABLE);
+
+lv_obj_t * arc = lv_arc_create(ring_panel);
+lv_obj_set_size(arc, 150, 150);
+lv_obj_center(arc);
+lv_arc_set_range(arc, 0, 100);
+lv_arc_set_rotation(arc, 270);
+lv_arc_set_bg_angles(arc, 0, 360);
+lv_obj_clear_flag(arc, LV_OBJ_FLAG_CLICKABLE);
+lv_obj_add_event_cb(arc, progress_arc_update, LV_EVENT_MSG_RECEIVED, NULL);
+lv_msg_subsribe_obj(DATA_PRINTER_DATA, arc, NULL);
+
+lv_obj_t * label = lv_label_create(ring_panel);
+lv_label_set_text(label, "0%");
+lv_obj_center(label);
+lv_obj_add_event_cb(label, update_printer_data_percentage, LV_EVENT_MSG_RECEIVED, NULL);
+lv_msg_subsribe_obj(DATA_PRINTER_DATA, label, NULL);
+
+// Hotend temp shown on the progress screen
+lv_obj_t * hotend_label = lv_label_create(ring_panel);
+lv_label_set_text(hotend_label, "Hotend: --/-- C");
+lv_obj_align(hotend_label, LV_ALIGN_CENTER, 0, -28);
+lv_obj_add_event_cb(hotend_label, update_printer_data_hotend_temp, LV_EVENT_MSG_RECEIVED, NULL);
+lv_msg_subsribe_obj(DATA_PRINTER_DATA, hotend_label, NULL);
+
+// Bed temp shown on the progress screen
+lv_obj_t * bed_label = lv_label_create(ring_panel);
+lv_label_set_text(bed_label, "Bed: --/-- C");
+lv_obj_align(bed_label, LV_ALIGN_CENTER, 0, 28);
+lv_obj_add_event_cb(bed_label, update_printer_data_bed_temp, LV_EVENT_MSG_RECEIVED, NULL);
+lv_msg_subsribe_obj(DATA_PRINTER_DATA, bed_label, NULL);
 
     // Time
     lv_obj_t * time_est_panel = lv_create_empty_panel(center_panel);
