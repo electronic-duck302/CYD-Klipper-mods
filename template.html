@@ -61,14 +61,14 @@
   <script src="//code.iconify.design/1/1.0.6/iconify.min.js"></script>
   <script>
     async function fetchChangelog() {
-      const response = await fetch("https://api.github.com/repos/suchmememanyskill/CYD-Klipper/releases/latest");
+      const response = await fetch("https://api.github.com/repos/electronic-duck302/CYD-Klipper-mods/releases/latest");
       const data = await response.json();
       document.getElementById("changelog-body").innerText = data.body;
       document.getElementById("changelog-header-version").innerText += data.tag_name;
     }
 
     function setInstallButton(esp){
-      document.getElementById("install-btn").innerHTML = `<esp-web-install-button manifest="https://suchmememanyskill.github.io/CYD-Klipper/${esp}.json"></esp-web-install-button>`;
+      document.getElementById("install-btn").innerHTML = `<esp-web-install-button manifest="https://electronicduck302.github.io/CYD-Klipper-mods/${esp}.json"></esp-web-install-button>`;
     }
 
     function setInstallButtonDefault(){
