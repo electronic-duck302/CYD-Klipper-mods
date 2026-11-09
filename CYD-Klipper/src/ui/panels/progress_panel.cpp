@@ -153,7 +153,7 @@ lv_obj_clear_flag(arc, LV_OBJ_FLAG_CLICKABLE);
 lv_obj_add_event_cb(arc, progress_arc_update, LV_EVENT_MSG_RECEIVED, NULL);
 lv_msg_subsribe_obj(DATA_PRINTER_DATA, arc, NULL);
 
-lv_obj_t * label = lv_label_create(ring_panel);
+label = lv_label_create(ring_panel);
 lv_label_set_text(label, "0%");
 lv_obj_center(label);
 lv_obj_add_event_cb(label, update_printer_data_percentage, LV_EVENT_MSG_RECEIVED, NULL);
