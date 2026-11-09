@@ -33,7 +33,7 @@ def get_manifest(base_path : str, device_name : str, is_s3 : bool):
     }
 
 def extract_commit() -> str:
-    git_describe_output = subprocess.run(["git", "describe", "--tags"], stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
+    git_describe_output = subprocess.run(["git", "describe", "--tags", "--always"], stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
     return git_describe_output.split("-")[0]
 
 repo_version = extract_commit()
