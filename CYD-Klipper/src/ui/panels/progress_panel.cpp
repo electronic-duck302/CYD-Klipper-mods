@@ -14,11 +14,35 @@ char* time_display(unsigned long time){
     return time_buffer;
 }
 
-static void progress_bar_update(lv_event_t* e){
-    lv_obj_t * bar = lv_event_get_target(e);
-    lv_bar_set_value(bar,  get_current_printer_data()->print_progress * 100, LV_ANIM_ON);
+static void progress_arc_update(lv_event_t* e){
+    lv_obj_t * arc = lv_event_get_target(e);
+    lv_arc_set_value(arc, get_current_printer_data()->print_progress * 100);
 }
 
+static void update_printer_data_percentage(lv_event_t * e){
+    lv_obj_t * label = lv_event_get_target(e);
+    char percentage_buffer[12];
+    sprintf(percentage_buffer, "%.2f%%", get_current_printer_data()->print_progress * 100);
+    lv_label_set_text(label, percentage_buffer);
+}
+
+static void update_printer_data_hotend_temp(lv_event_t * e){
+    lv_obj_t * label = lv_event_get_target(e);
+    char buff[48];
+    sprintf(buff, "Hotend: %.0f/%.0f C",
+        get_current_printer_data()->temperatures[PrinterTemperatureDeviceIndex::PrinterTemperatureDeviceIndexNozzle1],
+        get_current_printer_data()->target_temperatures[PrinterTemperatureDeviceIndex::PrinterTemperatureDeviceIndexNozzle1]);
+    lv_label_set_text(label, buff);
+}
+
+static void update_printer_data_bed_temp(lv_event_t * e){
+    lv_obj_t * label = lv_event_get_target(e);
+    char buff[48];
+    sprintf(buff, "Bed: %.0f/%.0f C",
+        get_current_printer_data()->temperatures[PrinterTemperatureDeviceIndex::PrinterTemperatureDeviceIndexBed],
+        get_current_printer_data()->target_temperatures[PrinterTemperatureDeviceIndex::PrinterTemperatureDeviceIndexBed]);
+    lv_label_set_text(label, buff);
+}
 static void update_printer_data_elapsed_time(lv_event_t * e){
     lv_obj_t * label = lv_event_get_target(e);
     lv_label_set_text(label, time_display(get_current_printer_data()->elapsed_time_s));
